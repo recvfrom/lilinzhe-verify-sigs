@@ -1,3 +1,7 @@
+NOTES
+pip install cryptography
+pip install M2Crypto
+
 ABSTRACT
 --------
 verify_sigs contains library functions to compute and validate hashes

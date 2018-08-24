@@ -29,6 +29,7 @@ import hashlib
 import pprint
 import sys
 import time
+import os
 
 
 from pyasn1.codec.der import encoder as der_encoder
@@ -92,11 +93,18 @@ def main():
   signed_pecoff = signed_pecoffs[0]
 
   signed_datas = signed_pecoff['SignedData']
+
+  if len(signed_datas) > 1:
+      raise Exception("TODO Add support for printing more than one certificate")
   # There may be multiple of these, if the windows binary was signed multiple
   # times, e.g. by different entities. Each of them adds a complete SignedData
   # blob to the binary.
   # TODO(user): Process all instances
   signed_data = signed_datas[0]
+
+  debugging_fd = open('/tmp/%s_extracted_cert.p7b' % os.path.basename(data_file), 'wb')
+  debugging_fd.write(signed_data[2])
+  debugging_fd.close()
 
   blob = pecoff_blob.PecoffBlob(signed_data)
 
